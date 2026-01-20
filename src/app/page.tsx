@@ -6,22 +6,9 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 1.0;
-      videoRef.current.play().catch((error) => {
-        console.error("Video autoplay failed:", error);
-      });
-    }
-  }, []);
-
-  const toggleAudio = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
+  /* Audio state removed as video has no sound */
+  const handleReserve = () => {
+    console.log("Reservation clicked");
   };
 
   return (
@@ -36,16 +23,15 @@ export default function Home() {
             ref={videoRef}
             autoPlay
             loop
-            muted={isMuted}
+            muted
             playsInline
             className="w-full h-full object-cover object-center opacity-90"
           >
-            <source src="/hero-video.mp4?v=1" type="video/mp4" />
+            <source src="/hero-video.mp4?v=3" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 
-          {/* Subtle Gradient for readability - darkened bottom for white text */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/80"></div>
+
         </div>
 
         {/* Navigation Bar */}
@@ -88,10 +74,10 @@ export default function Home() {
               About
             </a>
 
-            {/* Audio Icon */}
+            {/* Profile Icon */}
             <button className="hover:opacity-100 opacity-70 transition-opacity">
               {/* @ts-ignore */}
-              <iconify-icon icon="lucide:audio-waveform" className="text-lg"></iconify-icon>
+              <iconify-icon icon="lucide:user" className="text-lg"></iconify-icon>
             </button>
 
             {/* Language Switcher */}
@@ -123,8 +109,9 @@ export default function Home() {
         {/* Bottom UI Elements */}
         <footer className="absolute bottom-10 md:bottom-0 left-0 w-full p-8 md:p-12 z-50 flex flex-col md:flex-row gap-6 md:gap-0 justify-between items-center text-white">
           {/* Toggle Audio Button */}
+          {/* Reserve CTA Button */}
           <motion.button
-            onClick={toggleAudio}
+            onClick={handleReserve}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false }}
@@ -134,10 +121,10 @@ export default function Home() {
           >
             <div className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-slate-900 group-hover:scale-110 transition-transform">
               {/* @ts-ignore */}
-              <iconify-icon icon={isMuted ? "lucide:volume-x" : "lucide:volume-2"} className="text-[10px]"></iconify-icon>
+              <iconify-icon icon="lucide:arrow-right" className="text-[10px] -rotate-45 group-hover:rotate-0 transition-transform duration-300"></iconify-icon>
             </div>
             <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white">
-              {isMuted ? "Hear the Sound" : "Mute Sound"}
+              Reserve Your Spot
             </span>
           </motion.button>
 
@@ -152,6 +139,8 @@ export default function Home() {
             <span className="text-[10px] uppercase tracking-[0.3em] font-medium drop-shadow-md">Scroll to Discover</span>
           </motion.div>
         </footer>
+        {/* Gradient Transition to Interior */}
+        <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black via-black/60 to-transparent z-20 pointer-events-none"></div>
       </section>
 
       {/* NEW SECTION 2: INTERIOR REVEAL */}
@@ -162,8 +151,9 @@ export default function Home() {
           alt="Interior"
           className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"></div>
+
+        {/* Top Fade Transition from Hero */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
 
         {/* Floating Content */}
         <div className="relative z-10 max-w-7xl w-full px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -208,12 +198,16 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
+        {/* Bottom Fade Transition to Performance */}
+        <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black via-black/60 to-transparent z-20 pointer-events-none"></div>
       </section>
 
       {/* NEW SECTION 3: PERFORMANCE SPECS */}
       <section id="performance" className="min-h-screen w-full relative bg-black flex flex-col items-center justify-center py-16 md:py-24 px-6 md:px-12 overflow-hidden">
 
         {/* Dynamic Background Elements */}
+        {/* Top Fade Transition from Interior */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-black via-black/60 to-transparent z-20 pointer-events-none"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-black to-black opacity-80"></div>
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)] pointer-events-none"></div>
 
@@ -386,14 +380,19 @@ export default function Home() {
 
           </div>
         </div>
+        {/* Bottom Fade Transition to Neural */}
+        <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none"></div>
       </section>
 
       {/* NEW SECTION 4: NEURAL ARCHITECTURE */}
       <section id="neural" className="min-h-screen w-full relative bg-black flex items-center justify-center py-16 md:py-24 px-6 md:px-12 overflow-hidden">
 
-        {/* Digital Grid Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black_60%,transparent_100%)] opacity-20 pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001229] via-black to-black"></div>
+        {/* Dynamic Background Elements */}
+        {/* Top Fade Transition from Performance */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-black via-black/80 to-transparent z-20 pointer-events-none"></div>
+
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_100%)] opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-slate-950 to-black"></div>
 
         <div className="max-w-7xl w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
 
@@ -406,45 +405,61 @@ export default function Home() {
             className="flex flex-col gap-8"
           >
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
-                <span className="text-cyan-500 text-[10px] uppercase tracking-[0.4em] font-mono">Artificial Intelligence</span>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="relative">
+                  <span className="w-3 h-3 bg-cyan-500 rounded-full animate-ping absolute opacity-75"></span>
+                  <span className="w-3 h-3 bg-cyan-500 rounded-full relative block"></span>
+                </div>
+                <span className="text-cyan-500 text-xs uppercase tracking-[0.4em] font-mono font-bold">Artificial Intelligence</span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-michroma text-white leading-none uppercase mb-6">
-                Sentient <br /> Core
+              <h2 className="text-6xl md:text-8xl font-michroma text-white leading-[0.9] uppercase mb-8 tracking-tighter">
+                Sentient <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">Core</span>
               </h2>
-              <p className="text-white/60 text-sm md:text-base leading-relaxed font-light max-w-md">
-                The Hyper-Mind™ processor doesn't just drive; it perceives. fusing data from 32 distinct sensors to create a living, breathing holographic map of reality in real-time.
+              <p className="text-white/60 text-sm md:text-base leading-relaxed font-light max-w-md border-l-2 border-cyan-500/50 pl-6">
+                The Hyper-Mind™ processor doesn't just drive; it perceives. Fusing data from 32 distinct sensors to create a living, breathing holographic map of reality in real-time.
               </p>
             </div>
 
-            {/* Feature List with 'Terminal' styling */}
-            <div className="flex flex-col gap-4 font-mono text-xs text-white/70 mt-4 border-l border-white/10 pl-6">
-              <div className="flex items-center gap-4">
-                <span className="text-cyan-400">&gt;&gt;</span>
-                <span>LIDAR_CLUSTER_ARRAY</span>
-                <span className="text-emerald-500">[ONLINE]</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-cyan-400">&gt;&gt;</span>
-                <span>PREDICTIVE_PATHING_V9</span>
-                <span className="text-emerald-500">[ACTIVE]</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-cyan-400">&gt;&gt;</span>
-                <span>BIOMETRIC_FEEDBACK_LOOP</span>
-                <span className="text-emerald-500">[SYNCED]</span>
+            {/* Enhanced Terminal UI */}
+            <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-lg p-6 font-mono text-xs text-cyan-500/80 mt-2 shadow-lg shadow-cyan-900/10 relative overflow-hidden group hover:border-cyan-500/30 transition-colors duration-500">
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between border-b border-white/5 pb-2 mb-2">
+                  <span className="text-white/30">SYS.DIAGNOSTICS</span>
+                  <span className="text-emerald-500 animate-pulse">● LIVE</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-white/40">01</span>
+                  <span>LIDAR_CLUSTER_ARRAY</span>
+                  <div className="flex-grow h-[1px] bg-white/5 mx-2"></div>
+                  <span className="text-emerald-400">[ONLINE]</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-white/40">02</span>
+                  <span>PREDICTIVE_PATHING_V9</span>
+                  <div className="flex-grow h-[1px] bg-white/5 mx-2"></div>
+                  <span className="text-cyan-400">[ACTIVE]</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-white/40">03</span>
+                  <span>BIOMETRIC_FEEDBACK_LOOP</span>
+                  <div className="flex-grow h-[1px] bg-white/5 mx-2"></div>
+                  <span className="text-purple-400">[SYNCED]</span>
+                </div>
               </div>
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-fit mt-4 px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-cyan-400 transition-colors duration-300 clip-path-slant"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-fit mt-6 px-10 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-cyan-400 hover:text-black transition-all duration-300 clip-path-slant relative overflow-hidden group"
             >
-              Explore Tech Stack
+              <span className="relative z-10">Initialize System</span>
+              <div className="absolute inset-0 bg-cyan-300 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
             </motion.button>
           </motion.div>
+
 
           {/* Right: Visual Abstract Representation */}
           <motion.div
@@ -479,10 +494,10 @@ export default function Home() {
           </motion.div>
 
         </div>
-      </section>
+      </section >
 
       {/* FOOTER SECTION */}
-      <footer className="w-full bg-black text-white pt-16 md:pt-24 pb-8 md:pb-12 px-6 md:px-12 border-t border-white/10 relative overflow-hidden">
+      < footer className="w-full bg-black text-white pt-16 md:pt-24 pb-8 md:pb-12 px-6 md:px-12 border-t border-white/10 relative overflow-hidden" >
 
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col gap-12 md:gap-20">
 
@@ -534,14 +549,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer >
 
       {/* Aura Background Script (Keeping it if needed, though the image covers it) */}
-      <Script id="unicorn-studio" strategy="afterInteractive">
+      < Script id="unicorn-studio" strategy="afterInteractive" >
         {`
           !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.30/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
         `}
-      </Script>
-    </div>
+      </Script >
+    </div >
   );
 }
